@@ -1,0 +1,22 @@
+Section 5.3
+curl -X POST -i -c cookie -d "username=cdavisafc" localhost:8080/login
+curl -b cookie localhost:8080/connectionsposts | jq .
+
+minikube service mysql-svc --url
+
+mysql -h $(minikube service mysql-svc --url --format "{{.IP}}") \
+-P $(minikube service mysql-svc --url --format "{{.Port}}") -u root -p
+
+minikube service mysql-svc --url --format "jdbc:mysql://{{.IP}}:{{.Port}}/cookbook"
+
+minikube service posts-svc --format "http://{{.IP}}:{{.Port}}/posts?userIds=" --url
+minikube service connections-svc --format "http://{{.IP}}:{{.Port}}/connections/" --url
+minikube service connections-svc --format "http://{{.IP}}:{{.Port}}/users/" --url
+
+curl -i $(minikube service --url connectionsposts-svc)/connectionsposts
+
+curl -X POST -i -c cookie -d "username=cdavisafc" $(minikube service --url connectionsposts-svc)/login
+
+curl -b cookie $(minikube service --url connectionsposts-svc)/connectionsposts
+
+kubectl scale --replicas=2 deployment.apps/connectionsposts
