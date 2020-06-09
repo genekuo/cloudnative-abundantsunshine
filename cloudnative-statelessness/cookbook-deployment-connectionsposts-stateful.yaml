@@ -11,7 +11,7 @@ spec:
     targetPort: 8080
   type: NodePort
 ---
-apiVersion: apps/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: connectionsposts
@@ -38,8 +38,8 @@ spec:
           - name: PORT
             value: "8080"
           - name: CONNECTIONPOSTSCONTROLLER_POSTSURL
-            value: "<insert posts url here>/posts?userIds="
+            value: "http://192.168.64.3:32092/posts?userIds="
           - name: CONNECTIONPOSTSCONTROLLER_CONNECTIONSURL
-            value: "<insert connections url here>/connections/"
+            value: "http://192.168.64.3:30624/connections/"
           - name: CONNECTIONPOSTSCONTROLLER_USERSURL
-            value: "<insert connections url here>/users/"
+            value: "http://192.168.64.3:30624/users/"
